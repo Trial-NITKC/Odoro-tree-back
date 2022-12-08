@@ -5,6 +5,7 @@
 mysql/
 
 # Rust
+app/.git/
 debug/
 target/
 Cargo.lock
