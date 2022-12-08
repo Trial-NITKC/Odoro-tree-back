@@ -1,0 +1,10 @@
+# Common
+.env
+
+# MySQL
+mysql/
+
+# Rust
+debug/
+target/
+Cargo.lock

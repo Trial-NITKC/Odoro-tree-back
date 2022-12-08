@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    container_name: db
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: odoro-tree
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    environment:
+      DATABASE_URL: mysql://root:root@db/odoro-tree
+    working_dir: /app
+    depends_on:
+      - db
