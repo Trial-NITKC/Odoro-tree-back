@@ -1,7 +1,9 @@
 version: "3"
 services:
   golang:
-    build: ./golang/
+    build:
+      context: .
+      dockerfile: ./golang/Dockerfile
     image: golang
     container_name: api
     volumes:
@@ -11,7 +13,9 @@ services:
     tty: true
 
   mysql:
-    build: ./mysql/
+    build:
+      context: .
+      dockerfile: ./mysql/Dockerfile
     image: mysql
     container_name: db
     volumes:
