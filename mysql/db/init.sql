@@ -1,8 +1,10 @@
-DROP SCHEMA IF EXISTS odoro-tree;
-CREATE SCHEMA odoro-tree;
-USE odoro-tree;
+DROP SCHEMA IF EXISTS odoro_tree;
+CREATE SCHEMA odoro_tree;
+USE odoro_tree;
 
-DROP TABLE IF EXISTS odoro-tree;
+DROP TABLE IF EXISTS trees;
+DROP TABLE IF EXISTS branches;
+DROP TABLE IF EXISTS leaves;
 
 CREATE TABLE trees
 (
