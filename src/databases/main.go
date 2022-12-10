@@ -9,9 +9,9 @@ import (
 func GormConnect() (database *gorm.DB) {
     DBMS := "mysql"
     PROTOCOL := "tcp(db)"
-    DBNAME := "golang"
-    USER := "odoro-tree"
-    PASS := "password"
+    DBNAME := "odoro_tree"
+    USER := "root"
+    PASS := "root"
 
     CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=True&loc=Local"
     db, err := gorm.Open(DBMS, CONNECT)

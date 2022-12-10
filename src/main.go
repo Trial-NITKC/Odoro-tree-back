@@ -8,7 +8,7 @@ import (
 func main() {
     e := echo.New()
 
-    e.GET("/tree", routing.TreeGet())
+    e.GET("/trees", routing.GetTree)
 
     e.Logger.Fatal(e.Start(":8080"))
 }
