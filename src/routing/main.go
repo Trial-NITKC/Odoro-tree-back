@@ -9,22 +9,31 @@ import (
     "src/databases"
 )
 
+type Tabler interface {
+    TableName() string
+}
+
 type Tree struct {
-    TreeID  uint `gorm:"primaryKey" json:"id"`
+    TreeID  uint `gorm:"primaryKey" json:"tree_id"`
     Name    string `json:"name"`
 }
 
 type Branch struct {
-    BranchID  uint `gorm:"primaryKey" json:"id"`
+    BranchID  uint `gorm:"primaryKey" json:"branch_id"`
     ParentTreeId int `json:"parent_tree_id"`
 }
 
 type Leaf struct {
-    LeafID  uint `gorm:"primaryKey" json:"id"`
+    LeafID  uint `gorm:"primaryKey" json:"leaf_id"`
     FrontContent string `json:"front_content"`
     BackContent string `json:"back_content"`
     Rating int `json:"rating"`
     ParentBranchId int `json:"parent_branch_id"`
+}
+
+type LeavesList struct {
+    LeafID uint `gorm:"primaryKey" json:"leaf_id"`
+    Rating int `json:"rating"`
 }
 
 func (t Tree) String() string {
@@ -45,6 +54,14 @@ func (l Leaf) String() string {
         l.BackContent,
         l.Rating,
         l.ParentBranchId)
+}
+
+func (Leaf) TableName() string {
+    return "leaves"
+}
+
+func (LeavesList) TableName() string {
+    return "leaves"
 }
 
 func GetTree(c echo.Context) error {
@@ -160,7 +177,7 @@ func GetLeaf(c echo.Context) error {
     defer db.Close()
 
     var leaves []Leaf
-    db.Find(&leaves)
+    db.Model(&Leaf{}).Find(&leaves)
 
     return c.JSON(200, leaves)
 }
@@ -200,11 +217,33 @@ func PutLeaf(c echo.Context) error {
 }
 
 func DeleteLeaf(c echo.Context) error {
-    db:= databases.GormConnect()
+    db := databases.GormConnect()
     defer db.Close()
     
     id := c.Param("id")
     db.Debug().Delete(&Leaf{}, "leaf_id = ?", id)
 
     return c.NoContent(204)
+}
+
+func GetChildBranches(c echo.Context) error {
+    db := databases.GormConnect()
+    defer db.Close()
+
+    var branches []Branch
+    id := c.Param("id")
+    db.Where("parent_tree_id = ?", id).Find(&branches)
+
+    return c.JSON(200, branches)
+}
+
+func GetChildLeaves(c echo.Context) error {
+    db := databases.GormConnect()
+    defer db.Close()
+
+    var leaves []LeavesList
+    id := c.Param("id")
+    db.Model(&Leaf{}).Select("leaf_id, rating").Where("parent_branch_id = ?", id).Find(&leaves)
+
+    return c.JSON(200, leaves)
 }

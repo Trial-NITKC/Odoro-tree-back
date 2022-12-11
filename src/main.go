@@ -21,5 +21,8 @@ func main() {
     e.PUT("/leaves/:id", routing.PutLeaf)
     e.DELETE("/leaves/:id", routing.DeleteLeaf)
 
+    e.GET("/trees/:id/childbranches", routing.GetChildBranches)
+    e.GET("/branches/:id/childleaves", routing.GetChildLeaves)
+
     e.Logger.Fatal(e.Start(":8080"))
 }
