@@ -187,6 +187,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Branch'
+      responses:
+        '200':
+          description: description
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Branch'
     delete:
       tags:
         - branches
