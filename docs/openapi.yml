@@ -1,0 +1,362 @@
+openapi: 3.0.3
+info:
+  title: Odoro-tree-api
+  description: odoro-tree
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: trees
+  - name: branches
+  - name: leaves
+paths:
+  /trees:
+    get:
+      tags:
+        - trees
+      summary: Find trees
+      operationId: GetTree
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tree'
+    post:
+      tags:
+        - trees
+      summary: Create a tree
+      operationId: PostTree
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreeRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Tree'
+  /trees/{tree_id}:
+    put:
+      tags:
+        - trees
+      summary: Update a tree
+      operationId: PutTree
+      parameters:
+        - in: path
+          name: tree_id
+          required: true
+          schema:
+            type: int
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tree'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Tree'
+    delete:
+      tags:
+        - trees
+      summary: Delete a tree
+      operationId: DeleteTree
+      parameters:
+        - in: path
+          name: tree_id
+          required: true
+          schema:
+            type: int
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tree'
+      responses:
+        '204':
+  /trees/{tree_id}/childbranches:
+    get:
+      tags:
+        - trees
+      summary: Find childbranches
+      operationId: GetChildBranches
+      parameters:
+        - in: path
+          name: tree_id
+          required: true
+          schema:
+            type: int
+            example: 1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Branch'
+  /branches:
+    get:
+      tags:
+        - branches
+      summary: Find branches
+      operationId: GetBranch
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Branch'
+    post:
+      tags:
+        - branches
+      summary: Create a branch
+      operationId: PostBranch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BranchRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Branch'
+  /branches/{branch_id}:
+    put:
+      tags:
+        - branches
+      summary: Update a branch
+      operationId: PutBranch
+      parameters:
+        - in: path
+          name: branch_id
+          required: true
+          schema:
+            type: int
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Branch'
+    delete:
+      tags:
+        - branches
+      summary: Delete a branch
+      operationId: DeleteBranch
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: int
+            example: 1
+      responses:
+        '204':
+  /branches/{branch_id}/childleaves:
+    tags:
+      - branches
+    summary: Find childleaves
+    operationId: GetChildLeaves
+    parameters:
+      - in: path
+        name: branch_id
+        required: true
+        schema:
+          type: int
+          example: 1
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ChildLeaf'
+  /leaves:
+    get:
+      tags:
+        - leaves
+      summary: Find leaves
+      operationId: GetLeaf
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Leaf'
+    post:
+      tags:
+        - leaves
+      summary: Create a leaf
+      operationId: PostLeaf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeafRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Leaf'
+  /leaves/{leaf_id}:
+    put:
+      tags:
+        - leaves
+      summary: Update a leaf
+      operationId: PutLeaf
+      parameters:
+        - in: path
+          name: leaf_id
+          required: true
+          schema:
+            type: int
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Leaf'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Leaf'
+    delete:
+      tags:
+        - leaves
+      summary: Delete a leaf
+      operationId: DeleteLeaf
+      parameters:
+        - in: path
+          name: leaf_id
+          required: true
+          schema:
+            type: int
+            example: 1
+      responses:
+        '204':
+components:
+  schemas:
+    Tree:
+      type: object
+      required:
+        - tree_id
+        - name
+      properties:
+        tree_id:
+          type: int
+          example: 1
+        name:
+          type: string
+          example: 
+    TreeRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example:
+    Branch:
+      type: object
+      required:
+        - branch_id
+        - parent_tree_id
+      properties:
+        branch_id:
+          type: int
+          example: 1
+        parent_tree_id:
+          type: int
+          example: 1
+    BranchRequest:
+      type: object
+      required:
+        - parent_tree_id
+      properties:
+        parent_tree_id:
+          type: int
+          example: 1
+    Leaf:
+      type: object
+      required:
+        - leaf_id
+        - front_content
+        - back_content
+        - rating
+        - parent_branch_id
+      properties:
+        leaf_id:
+          type: int
+          example: 1
+        front_content:
+          type: string
+        back_content:
+          type: string
+        rating:
+          type: int
+          example: 1
+        parent_branch_id:
+          type: int
+          example: 1
+    LeafRequest:
+      type: object
+      required:
+        - front_content
+        - back_content
+        - rating
+        - parent_branch_id
+      properties:
+        front_content:
+          type: string
+        back_content:
+          type: string
+        rating:
+          type: int
+          example: 1
+        parent_branch_id:
+          type: int
+          example: 1
+    ChildLeaf:
+      type: object
+      required:
+        - leaf_id
+        - rating
+      properties:
+        leaf_id:
+          type: int
+          example: 1
+        rating:
+          type: int
+          example: 1
