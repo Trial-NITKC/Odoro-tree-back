@@ -68,6 +68,17 @@ func GetTree(c echo.Context) error {
     db := databases.GormConnect()
     defer db.Close()
 
+    tree := new(Tree)
+    id := c.Param("id")
+    db.Where("tree_id = ?", id).Find(&tree)
+
+    return c.JSON(200, tree)
+}
+
+func GetTrees(c echo.Context) error {
+    db := databases.GormConnect()
+    defer db.Close()
+
     var trees []Tree
     db.Find(&trees)
 
@@ -122,6 +133,17 @@ func GetBranch(c echo.Context) error {
     db := databases.GormConnect()
     defer db.Close()
 
+    branch := new(Branch)
+    id := c.Param("id")
+    db.Where("branch_id = ?", id).Find(&branch)
+
+    return c.JSON(200, branch)
+}
+
+func GetBranches(c echo.Context) error {
+    db := databases.GormConnect()
+    defer db.Close()
+
     var branches []Branch
     db.Find(&branches)
 
@@ -173,6 +195,17 @@ func DeleteBranch(c echo.Context) error {
 }
 
 func GetLeaf(c echo.Context) error {
+    db := databases.GormConnect()
+    defer db.Close()
+
+    leaf := new(Leaf)
+    id := c.Param("id")
+    db.Where("leaf_id = ?", id).Find(&leaf)
+
+    return c.JSON(200, leaf)
+}
+
+func GetLeaves(c echo.Context) error {
     db := databases.GormConnect()
     defer db.Close()
 
