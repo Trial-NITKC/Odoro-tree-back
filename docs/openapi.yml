@@ -5,25 +5,27 @@ info:
   version: 0.1.0
 servers:
   - url: http://localhost:8080
-    description: description
+    description: localhost
+  - url: http://59.106.209.98:8080
+    description: Test environment
 tags:
   - name: trees
-    description: description
+    description: Tree's interface
   - name: branches
-    description: description
+    description: Branch's interface
   - name: leaves
-    description: description
+    description: Leaf's interface
 paths:
   /trees:
     get:
       tags:
         - trees
       summary: Find trees
-      operationId: GetTree
-      description: description
+      operationId: GetTrees
+      description: Return all trees' data
       responses:
         '200':
-          description: description
+          description: OK
           content:
             application/json:
               schema:
@@ -35,9 +37,9 @@ paths:
         - trees
       summary: Create a tree
       operationId: PostTree
-      description: description
+      description: Create a tree with a request's data
       requestBody:
-        description: description
+        description: A tree's data
         required: true
         content:
           application/json:
@@ -45,29 +47,52 @@ paths:
               $ref: '#/components/schemas/TreeRequest'
       responses:
         '201':
-          description: description
+          description: Return the created data
           content:
             application/json:
               schema:
                 type: object
                 $ref: '#/components/schemas/Tree'
   /trees/{tree_id}:
-    put:
+    get:
       tags:
         - trees
-      summary: Update a tree
-      operationId: PutTree
-      description: description
+      summary: Get a tree
+      operationId: GetTree
+      description: Return the data of the tree specified
       parameters:
         - in: path
           name: tree_id
           required: true
           schema:
             type: int
-            description: description
+            description: ID of the tree
+            example: 1
+      responses:
+        '200':
+          description: Return the data specified
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Tree'
+
+    put:
+      tags:
+        - trees
+      summary: Update a tree
+      operationId: PutTree
+      description: Update a tree's data
+      parameters:
+        - in: path
+          name: tree_id
+          required: true
+          schema:
+            type: int
+            description: ID of the tree
             example: 1
       requestBody:
-        description: description
+        description: The updated tree's data
         required: true
         content:
           application/json:
@@ -75,7 +100,7 @@ paths:
               $ref: '#/components/schemas/Tree'
       responses:
         '200':
-          description: description
+          description: Return the updated data
           content:
             application/json:
               schema:
@@ -86,43 +111,36 @@ paths:
         - trees
       summary: Delete a tree
       operationId: DeleteTree
-      description: description
+      description: Delete the tree specified
       parameters:
         - in: path
           name: tree_id
           required: true
           schema:
             type: int
-            description: description
+            description: ID of the tree
             example: 1
-      requestBody:
-        description: description
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Tree'
       responses:
         '204':
-          description: description
+          description: Successfully deleted
   /trees/{tree_id}/childbranches:
     get:
       tags:
         - trees
       summary: Find childbranches
       operationId: GetChildBranches
-      description: description
+      description: Return all the child branches
       parameters:
         - in: path
           name: tree_id
           required: true
           schema:
             type: int
-            description: description
+            description: ID of the parent tree
             example: 1
       responses:
         '200':
-          description: description
+          description: Return all child branches' data
           content:
             application/json:
               schema:
@@ -134,11 +152,11 @@ paths:
       tags:
         - branches
       summary: Find branches
-      operationId: GetBranch
-      description: description
+      operationId: GetBranches
+      description: Return all branches' data
       responses:
         '200':
-          description: description
+          description: OK
           content:
             application/json:
               schema:
@@ -150,9 +168,9 @@ paths:
         - branches
       summary: Create a branch
       operationId: PostBranch
-      description: description
+      description: Create a branch with a request's data
       requestBody:
-        description: description
+        description: A branch's data
         required: true
         content:
           application/json:
@@ -160,28 +178,52 @@ paths:
               $ref: '#/components/schemas/BranchRequest'
       responses:
         '201':
-          description: description
+          description: Return the created data
           content:
             application/json:
               schema:
                 type: object
                 $ref: '#/components/schemas/Branch'
   /branches/{branch_id}:
-    put:
+    get:
       tags:
         - branches
-      summary: Update a branch
-      operationId: PutBranch
-      description: description
+      summary: Get a branch
+      operationId: GetBranch
+      description: Return the data of the branch specified
       parameters:
         - in: path
           name: branch_id
           required: true
           schema:
             type: int
+            description: ID of the branch
+            example: 1
+      responses:
+        '200':
+          description: Return the data specified
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Branch'
+
+    put:
+      tags:
+        - branches
+      summary: Update a branch
+      operationId: PutBranch
+      description: Update a branch's data
+      parameters:
+        - in: path
+          name: branch_id
+          required: true
+          schema:
+            type: int
+            description: ID of the branch
             example: 1
       requestBody:
-        description: description
+        description: The updated branch's data
         required: true
         content:
           application/json:
@@ -189,7 +231,7 @@ paths:
               $ref: '#/components/schemas/Branch'
       responses:
         '200':
-          description: description
+          description: Return the updated data
           content:
             application/json:
               schema:
@@ -200,37 +242,36 @@ paths:
         - branches
       summary: Delete a branch
       operationId: DeleteBranch
-      description: description
+      description: Delete the branch specified
       parameters:
         - in: path
           name: branch_id
           required: true
           schema:
             type: int
-            description: description
+            description: ID of the branch
             example: 1
       responses:
         '204':
-          description: description
+          description: Successfully deleted
   /branches/{branch_id}/childleaves:
     get:
       tags:
         - branches
       summary: Find childleaves
       operationId: GetChildLeaves
-      description: description
+      description: Return all the child leaves
       parameters:
         - in: path
           name: branch_id
           required: true
           schema:
             type: int
-            description: description
+            description: ID of the parent branch
             example: 1
       responses:
         '200':
-          description: description
-
+          description: Return all child leaves' data
           content:
             application/json:
               schema:
@@ -242,11 +283,11 @@ paths:
       tags:
         - leaves
       summary: Find leaves
-      operationId: GetLeaf
-      description: description
+      operationId: GetLeaves
+      description: Return all leaves' data
       responses:
         '200':
-          description: description
+          description: OK
           content:
             application/json:
               schema:
@@ -258,9 +299,9 @@ paths:
         - leaves
       summary: Create a leaf
       operationId: PostLeaf
-      description: description
+      description: Create a leaf with a request's data
       requestBody:
-        description: description
+        description: A leaf's data
         required: true
         content:
           application/json:
@@ -268,29 +309,51 @@ paths:
               $ref: '#/components/schemas/LeafRequest'
       responses:
         '201':
-          description: description
+          description: Return the created data
           content:
             application/json:
               schema:
                 type: object
                 $ref: '#/components/schemas/Leaf'
   /leaves/{leaf_id}:
-    put:
+    get:
       tags:
         - leaves
-      summary: Update a leaf
-      operationId: PutLeaf
-      description: description
+      summary: Get a tree
+      operationId: GetLeaf
+      description: Return the data of the tree specified
       parameters:
         - in: path
           name: leaf_id
           required: true
           schema:
             type: int
-            description: description
+            description: ID of the leaf
+            example: 1
+      responses:
+        '200':
+          description: Return the data specified
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Leaf'
+    put:
+      tags:
+        - leaves
+      summary: Update a leaf
+      operationId: PutLeaf
+      description: Update a leaf's data
+      parameters:
+        - in: path
+          name: leaf_id
+          required: true
+          schema:
+            type: int
+            description: ID of the leaf
             example: 1
       requestBody:
-        description: description
+        description: The updated leaf's data
         required: true
         content:
           application/json:
@@ -298,7 +361,7 @@ paths:
               $ref: '#/components/schemas/Leaf'
       responses:
         '200':
-          description: description
+          description: Return the updated data
           content:
             application/json:
               schema:
@@ -309,18 +372,18 @@ paths:
         - leaves
       summary: Delete a leaf
       operationId: DeleteLeaf
-      description: description
+      description: Delete the leaf specified
       parameters:
         - in: path
           name: leaf_id
           required: true
           schema:
             type: int
-            description: description
+            description: ID of the leaf
             example: 1
       responses:
         '204':
-          description: description
+          description: Successfully deleted
 components:
   schemas:
     Tree:
@@ -331,11 +394,11 @@ components:
       properties:
         tree_id:
           type: int
-          description: description
+          description: ID of a tree
           example: 1
         name:
           type: string
-          description: description
+          description: Name of a tree
           example: 
     TreeRequest:
       type: object
@@ -344,7 +407,7 @@ components:
       properties:
         name:
           type: string
-          description: description
+          description: Name of a tree
           example:
     Branch:
       type: object
@@ -354,11 +417,11 @@ components:
       properties:
         branch_id:
           type: int
-          description: description
+          description: ID of a branch
           example: 1
         parent_tree_id:
           type: int
-          description: description
+          description: ID of a parent tree
           example: 1
     BranchRequest:
       type: object
@@ -367,7 +430,7 @@ components:
       properties:
         parent_tree_id:
           type: int
-          description: description
+          description: ID of a parent tree
           example: 1
     Leaf:
       type: object
@@ -380,21 +443,21 @@ components:
       properties:
         leaf_id:
           type: int
-          description: description
+          description: ID of a leaf
           example: 1
         front_content:
           type: string
-          description: description
+          description: Front content
         back_content:
           type: string
-          description: description
+          description: Back content
         rating:
           type: int
-          description: description
+          description: Rating of a leaf
           example: 1
         parent_branch_id:
           type: int
-          description: description
+          description: ID of a parent branch
           example: 1
     LeafRequest:
       type: object
@@ -406,17 +469,17 @@ components:
       properties:
         front_content:
           type: string
-          description: description
+          description: Front content
         back_content:
           type: string
-          description: description
+          description: Back content
         rating:
           type: int
-          description: description
+          description: Rating of a leaf
           example: 1
         parent_branch_id:
           type: int
-          description: description
+          description: ID of a parent branch
           example: 1
     ChildLeaf:
       type: object
@@ -426,9 +489,9 @@ components:
       properties:
         leaf_id:
           type: int
-          description: description
+          description: ID of a leaf
           example: 1
         rating:
           type: int
-          description: description
+          description: Rating of a leaf
           example: 1
