@@ -234,17 +234,15 @@ func PutLeaf(c echo.Context) error {
     db := databases.GormConnect()
     defer db.Close()
 
-    leaf := new(Leaf)
     id := c.Param("id")
-    db.Where("leaf_id = ?", id).Find(&leaf)
-
     updateValues := new(Leaf)
     if err := c.Bind(updateValues); err != nil {
         return err
     }
 
-    db.Model(&leaf).Updates(updateValues)
-    db.Where(&leaf).Find(&leaf)
+    leaf := new(Leaf)
+    db.Model(&Leaf{}).Where("leaf_id = ?", id).Updates(updateValues)
+    db.Where("leaf_id", updateValues.LeafID).Find(&leaf)
 
     return c.JSON(200, leaf)
 }
