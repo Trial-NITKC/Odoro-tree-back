@@ -242,7 +242,7 @@ func PutLeaf(c echo.Context) error {
 
     leaf := new(Leaf)
     db.Model(&Leaf{}).Where("leaf_id = ?", id).Updates(updateValues)
-    db.Where("leaf_id", updateValues.LeafID).Find(&leaf)
+    db.Where("leaf_id = ?", updateValues.LeafID).Find(&leaf)
 
     return c.JSON(200, leaf)
 }
